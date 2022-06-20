@@ -1,9 +1,10 @@
-import { getCharacters } from "../../../api/api";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 
-const Search = () => {
+const Search = props => {
+  const { handleSearchTerm } = props;
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const debounce = (callback, delay) => {
@@ -25,20 +26,10 @@ const Search = () => {
     updateDebouceInput(e.target.value);
   };
 
-  //waiting for debounce to set searchTerm before fetching data from server
+  //waiting for debounce to set searchTerm before callback
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getCharacters(searchTerm);
-        const data = response.data;
-        console.log(data);
-        return;
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, [searchTerm]);
+    handleSearchTerm(searchTerm);
+  }, [searchTerm, handleSearchTerm]);
 
   return (
     <>
