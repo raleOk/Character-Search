@@ -30,9 +30,8 @@ const CharacterCard = props => {
           }
         />
         <CardContent>
-          <Typography color="textSecondary">Origin: {origin}</Typography>
-          <Typography color="textSecondary">Location: {location}</Typography>
-          <Typography color="textSecondary">Status: {status}</Typography>
+          <Typography>Origin: {origin}</Typography>
+          <Typography>Location: {location}</Typography>
         </CardContent>
       </Card>
     </>

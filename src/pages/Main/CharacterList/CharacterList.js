@@ -4,6 +4,7 @@ import CharacterCard from "./CharacterCard";
 const CharacterList = props => {
   const { listItems } = props;
 
+  //mapping through state from Main.js
   const list = listItems.map(el => {
     return (
       <Grid

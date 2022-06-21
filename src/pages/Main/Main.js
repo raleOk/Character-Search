@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { fetchCharacters } from "../../api/api";
 import CharacterList from "./CharacterList/CharacterList";
 import Search from "./Search/Search";
-import Loader from "../../components/Loader";
+import useFetchOnScroll from "../../hooks/useFetchOnScroll";
+import { Grid, Typography } from "@mui/material";
 
 const Main = () => {
   //rendered state
@@ -11,43 +12,77 @@ const Main = () => {
   //search state
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearchTerm = input => {
+  const handleSearchTerm = useCallback(input => {
     setSearchTerm(input);
-  };
+    setPage(2);
+  }, []);
 
-  //pagination state
-  const [pagination, setPagination] = useState([]);
+  //scroll pagination state and handlers
+  //page is 2 because Search.js always calls the 1st page, so 2 is the one pagination should call
+  const [page, setPage] = useState(2);
 
-  //loading state
-  const [isLoading, setIsLoading] = useState(false);
+  const fetchData = useCallback(
+    async (searchTerm, page) => {
+      try {
+        const response = await fetchCharacters(searchTerm, page);
+        const listData = response.data.results;
+        const paginationData = response.data.info;
 
-  const fetchData = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetchCharacters(searchTerm);
-      const data = response.data;
-      setListItems(data.results);
-      setPagination(data.info);
-      setIsLoading(false);
-      return;
-    } catch (err) {
-      console.log(err);
-    }
-  }, [searchTerm]);
+        //check if next page is null and stops execution
+        if (paginationData.next === null) {
+          setIsFetching(false);
+          return;
+        }
+        //increasing page number for next call
+        setPage(prevState => {
+          return prevState + 1;
+        });
+        //setting rendered state
+        setListItems(prevState => {
+          return [...prevState, ...listData];
+        });
+        setIsFetching(false);
+        return;
+      } catch (err) {
+        console.log(err);
+        setIsFetching(false);
+      }
+    },
+    [searchTerm]
+  );
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const [isFetching, setIsFetching] = useFetchOnScroll(
+    fetchData,
+    searchTerm,
+    page
+  );
 
   return (
-    <>
-      <Search handleSearchTerm={handleSearchTerm} />
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <CharacterList listItems={listItems} pagination={pagination} />
-      )}
-    </>
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      spacing={2}
+    >
+      <Grid item>
+        <Search
+          handleSearchTerm={handleSearchTerm}
+          setListItems={setListItems}
+        />
+      </Grid>
+      <Grid item>
+        <CharacterList listItems={listItems} />
+      </Grid>
+      <Grid item>
+        {" "}
+        {isFetching ? (
+          <Typography variant="h6">Loading more...</Typography>
+        ) : (
+          <Typography variant="h6">No more characters.</Typography>
+        )}
+      </Grid>
+    </Grid>
   );
 };
 

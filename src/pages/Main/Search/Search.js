@@ -1,9 +1,10 @@
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { fetchCharacters } from "../../../api/api";
 
 const Search = props => {
-  const { handleSearchTerm } = props;
+  const { handleSearchTerm, setListItems } = props;
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -26,10 +27,26 @@ const Search = props => {
     updateDebouceInput(e.target.value);
   };
 
+  //calls page 1 of searchTerm
+  const onSearch = useCallback(
+    async searchTerm => {
+      try {
+        const response = await fetchCharacters(searchTerm);
+        const data = response.data;
+        setListItems(data.results);
+        return;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [setListItems]
+  );
+
   //waiting for debounce to set searchTerm before callback
   useEffect(() => {
     handleSearchTerm(searchTerm);
-  }, [searchTerm, handleSearchTerm]);
+    onSearch(searchTerm);
+  }, [searchTerm, handleSearchTerm, onSearch]);
 
   return (
     <>
