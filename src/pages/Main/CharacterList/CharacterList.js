@@ -1,8 +1,15 @@
 import { Grid } from "@mui/material";
 import CharacterCard from "./CharacterCard";
+import { useNavigate } from "react-router-dom";
 
 const CharacterList = props => {
   const { listItems } = props;
+
+  const navigate = useNavigate();
+
+  const handleClick = char => {
+    navigate(`character/${char.id}`);
+  };
 
   //mapping through state from Main.js
   const list = listItems.map(el => {
@@ -20,14 +27,27 @@ const CharacterList = props => {
         xl={4}
         key={el.id}
       >
-        <CharacterCard
-          name={el.name}
-          image={el.image}
-          species={el.species}
-          origin={el.origin.name}
-          location={el.location.name}
-          status={el.status}
-        />
+        <Grid
+          item
+          onClick={() => {
+            handleClick(el);
+          }}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+        >
+          <CharacterCard
+            name={el.name}
+            image={el.image}
+            species={el.species}
+            origin={el.origin.name}
+            location={el.location.name}
+            status={el.status}
+            avatarSize="70px"
+          />
+        </Grid>
       </Grid>
     );
   });
