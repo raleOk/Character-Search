@@ -1,13 +1,25 @@
 import { Grid } from "@mui/material";
-import CharacterListItem from "./CharacterListItem";
+import CharacterCard from "./CharacterCard";
 
 const CharacterList = props => {
   const { listItems } = props;
 
   const list = listItems.map(el => {
     return (
-      <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={el.id}>
-        <CharacterListItem
+      <Grid
+        container
+        item
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        xs={12}
+        sm={6}
+        md={4}
+        lg={4}
+        xl={4}
+        key={el.id}
+      >
+        <CharacterCard
           name={el.name}
           image={el.image}
           species={el.species}
@@ -21,14 +33,7 @@ const CharacterList = props => {
 
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        spacing={3}
-        sx={{ mt: 1 }}
-      >
+      <Grid container spacing={5} sx={{ mt: 1 }}>
         {list}
       </Grid>
     </>
