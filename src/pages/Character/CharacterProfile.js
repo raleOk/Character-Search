@@ -45,27 +45,24 @@ const CharacterProfile = () => {
     };
     fetchData();
   }, [charId]);
-  //STOP HERE
+
   return (
     <>
-      <Grid container spacing={5}>
+      <IconButton onClick={handleBack}>
+        <ArrowBackIcon />
+      </IconButton>
+      <Grid container>
         <Grid
           item
           container
           direction="column"
-          justifyContent="top"
-          spacing={2}
+          align="center"
           xs={12}
           sm={6}
           md={6}
           lg={6}
           xl={6}
         >
-          <Grid item>
-            <IconButton onClick={handleBack}>
-              <ArrowBackIcon />
-            </IconButton>
-          </Grid>
           <Grid item>
             {isLoading ? (
               <Loader />
@@ -87,6 +84,7 @@ const CharacterProfile = () => {
           container
           direction="row"
           justifyContent="center"
+          align="center"
           xs={12}
           sm={6}
           md={6}
