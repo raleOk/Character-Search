@@ -3,7 +3,7 @@ import { fetchCharacters } from "../../api/api";
 import CharacterList from "./CharacterList/CharacterList";
 import Search from "./Search/Search";
 import useFetchOnScroll from "../../hooks/useFetchOnScroll";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, AppBar } from "@mui/material";
 
 const Main = () => {
   //rendered state
@@ -65,13 +65,28 @@ const Main = () => {
       alignItems="center"
       spacing={2}
     >
-      <Grid item>
-        <Search
-          handleSearchTerm={handleSearchTerm}
-          setListItems={setListItems}
-        />
-      </Grid>
-      <Grid item>
+      <AppBar position="fixed" style={{ background: "white" }}>
+        <Grid
+          item
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} align="center">
+            <Typography variant="h5" color="textSecondary">
+              Characters
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} align="center">
+            <Search
+              handleSearchTerm={handleSearchTerm}
+              setListItems={setListItems}
+            />
+          </Grid>
+        </Grid>
+      </AppBar>
+      <Grid item sx={{ mt: 5 }}>
         <CharacterList listItems={listItems} />
       </Grid>
       <Grid item>

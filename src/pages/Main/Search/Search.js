@@ -61,7 +61,7 @@ const Search = props => {
             </InputAdornment>
           ),
         }}
-        variant="outlined"
+        sx={{ m: 0.5 }}
       />
     </>
   );
