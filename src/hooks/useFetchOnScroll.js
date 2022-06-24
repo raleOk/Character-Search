@@ -5,12 +5,13 @@ const useFetchOnScroll = (fetchCharactersOnScroll, searchTerm, page) => {
 
   //calculates if user scrolled to the bottom, sets isFetching to true if so
   const handleScroll = useCallback(() => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isFetching
-    )
-      return;
+    let threshold =
+      window.innerHeight +
+      document.documentElement.scrollTop -
+      document.documentElement.offsetHeight;
+
+    if (Math.abs(threshold) > 15 || isFetching) return;
+
     setIsFetching(true);
   }, [isFetching]);
 

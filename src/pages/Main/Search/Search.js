@@ -67,7 +67,7 @@ const Search = props => {
             </InputAdornment>
           ),
         }}
-        sx={{ m: 0.5 }}
+        sx={{ m: 0.5, mr: 1 }}
       />
     </>
   );

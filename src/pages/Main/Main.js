@@ -52,8 +52,6 @@ const Main = () => {
           setIsFetching(false);
           return;
         }
-        //makes sure that noMorePages is false if the next page is not null
-        setNoMorePages(false);
         //increasing page number for next call
         setPage(prevState => {
           return prevState + 1;
@@ -62,6 +60,8 @@ const Main = () => {
         setListItems(prevState => {
           return [...prevState, ...listData];
         });
+        //makes sure that noMorePages is false if the next page is not null
+        setNoMorePages(false);
         setIsFetching(false);
         return;
       } catch (err) {
@@ -92,15 +92,15 @@ const Main = () => {
           item
           container
           direction="row"
-          justifyContent="center"
           alignItems="center"
+          justifyContent="space-between"
         >
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} align="center">
-            <Typography variant="h5" color="textSecondary">
+          <Grid item>
+            <Typography variant="h5" color="textSecondary" sx={{ ml: 1 }}>
               Characters
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} align="center">
+          <Grid item>
             <Search
               handleSearchTerm={handleSearchTerm}
               setListItems={setListItems}
@@ -114,13 +114,8 @@ const Main = () => {
         <CharacterList listItems={listItems} />
       </Grid>
       <Grid item>
-        {isFetching ? (
-          <Typography variant="h6">Loading more...</Typography>
-        ) : noMorePages ? (
-          <Typography variant="h6">No more characters.</Typography>
-        ) : (
-          ""
-        )}
+        {isFetching && <Typography variant="h6">Loading more...</Typography>}
+        {noMorePages && <Typography variant="h6">No more pages.</Typography>}
       </Grid>
       <Grid item>
         <ErrorAlert
