@@ -11,11 +11,20 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 const CharacterCard = props => {
-  const { name, image, species, origin, location, status, avatarSize } = props;
+  const {
+    name,
+    image,
+    species,
+    origin,
+    location,
+    status,
+    avatarSize,
+    cardParams,
+  } = props;
 
   return (
     <>
-      <Card sx={{ maxWidth: 350, minWidth: 350 }} elevation={2}>
+      <Card sx={cardParams[0]} elevation={2}>
         <CardHeader
           avatar={
             <Avatar
@@ -35,8 +44,8 @@ const CharacterCard = props => {
           }
         />
         <CardContent>
-          <Typography>Origin: {origin}</Typography>
-          <Typography>Location: {location}</Typography>
+          <Typography sx={{ fontSize: 14.5 }}>Origin: {origin}</Typography>
+          <Typography sx={{ fontSize: 14.5 }}>Location: {location}</Typography>
         </CardContent>
       </Card>
     </>

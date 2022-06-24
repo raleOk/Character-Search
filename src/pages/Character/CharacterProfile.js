@@ -6,6 +6,7 @@ import Loader from "../../components/Loader";
 import CharacterCard from "../Main/CharacterList/CharacterCard";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EpisodeList from "./EpisodeList";
+import ErrorAlert from "../../components/ErrorAlert";
 
 const CharacterProfile = () => {
   const navigate = useNavigate();
@@ -24,6 +25,14 @@ const CharacterProfile = () => {
   //loading state
   const [isLoading, setIsLoading] = useState(true);
 
+  //error alert state and handlers
+  const [openError, setOpenError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleCloseError = () => {
+    setOpenError(false);
+  };
+
   //episodeList state
   const [listItems, setListItems] = useState([]);
 
@@ -39,8 +48,9 @@ const CharacterProfile = () => {
         setIsLoading(false);
         return;
       } catch (err) {
-        console.log(err);
         setIsLoading(false);
+        setErrorMessage("Something went wrong!");
+        setOpenError(true);
       }
     };
     fetchData();
@@ -51,7 +61,8 @@ const CharacterProfile = () => {
       <IconButton onClick={handleBack}>
         <ArrowBackIcon />
       </IconButton>
-      <Grid container>
+
+      <Grid container spacing={6}>
         <Grid
           item
           container
@@ -75,6 +86,7 @@ const CharacterProfile = () => {
                 location={character.location.name}
                 status={character.status}
                 avatarSize="180px"
+                cardParams={[{ maxWidth: 400, minWidth: 200 }]}
               />
             )}
           </Grid>
@@ -92,6 +104,13 @@ const CharacterProfile = () => {
           xl={6}
         >
           <EpisodeList listItems={listItems} />
+        </Grid>
+        <Grid item>
+          <ErrorAlert
+            openError={openError}
+            handleCloseError={handleCloseError}
+            handleErrorMessage={errorMessage}
+          />
         </Grid>
       </Grid>
     </>

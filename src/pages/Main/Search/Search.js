@@ -4,7 +4,12 @@ import { useState, useEffect, useCallback } from "react";
 import { fetchCharacters } from "../../../api/api";
 
 const Search = props => {
-  const { handleSearchTerm, setListItems } = props;
+  const {
+    handleSearchTerm,
+    setListItems,
+    handleOpenError,
+    handleErrorMessage,
+  } = props;
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -36,7 +41,8 @@ const Search = props => {
         setListItems(data.results);
         return;
       } catch (err) {
-        console.log(err);
+        handleErrorMessage("Something went wrong!");
+        handleOpenError(true);
       }
     },
     [setListItems]

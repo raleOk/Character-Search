@@ -46,6 +46,7 @@ const CharacterList = props => {
             location={el.location.name}
             status={el.status}
             avatarSize="70px"
+            cardParams={[{ minWidth: 300, maxHeight: 190 }]}
           />
         </Grid>
       </Grid>

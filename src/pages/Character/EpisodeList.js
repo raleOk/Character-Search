@@ -1,21 +1,36 @@
-import { List, ListItem, ListItemText, ListSubheader } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListSubheader,
+  Link,
+  Paper,
+} from "@mui/material";
 
 const EpisodeList = props => {
   const { listItems } = props;
 
   return (
-    <List
-      sx={{ maxWidth: 360, bgcolor: "background.paper" }}
-      subheader={<ListSubheader>Episodes:</ListSubheader>}
+    <Paper
+      sx={{
+        maxHeight: 700,
+        width: 380,
+        minWidth: 200,
+        overflow: "auto",
+      }}
     >
-      {listItems.map((el, index) => {
-        return (
-          <ListItem key={index}>
-            <ListItemText primary={el} />
-          </ListItem>
-        );
-      })}
-    </List>
+      <List subheader={<ListSubheader>Episodes:</ListSubheader>}>
+        {listItems.map((el, index) => {
+          return (
+            <ListItem key={index}>
+              <Link href="#" underline="none">
+                <ListItemText primary={el} />
+              </Link>
+            </ListItem>
+          );
+        })}
+      </List>
+    </Paper>
   );
 };
 
