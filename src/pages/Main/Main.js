@@ -116,11 +116,8 @@ const Main = () => {
       <Grid item>
         {isFetching ? (
           <Typography variant="h6">Loading more...</Typography>
-        ) : (
-          ""
-        )}
-        {noMorePages ? (
-          <Typography variant="h6">No more pages.</Typography>
+        ) : noMorePages ? (
+          <Typography variant="h6">No more characters.</Typography>
         ) : (
           ""
         )}
