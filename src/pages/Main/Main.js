@@ -4,7 +4,6 @@ import CharacterList from "./CharacterList/CharacterList";
 import Search from "./Search/Search";
 import useFetchOnScroll from "../../hooks/useFetchOnScroll";
 import { Grid, Typography, AppBar } from "@mui/material";
-import Loader from "../../components/Loader";
 import ErrorAlert from "../../components/ErrorAlert";
 
 const Main = () => {
@@ -115,8 +114,16 @@ const Main = () => {
         <CharacterList listItems={listItems} />
       </Grid>
       <Grid item>
-        {isFetching && <Loader />}
-        {noMorePages && <Typography variant="h6">No more pages.</Typography>}
+        {isFetching ? (
+          <Typography variant="h6">Loading more...</Typography>
+        ) : (
+          ""
+        )}
+        {noMorePages ? (
+          <Typography variant="h6">No more pages.</Typography>
+        ) : (
+          ""
+        )}
       </Grid>
       <Grid item>
         <ErrorAlert
